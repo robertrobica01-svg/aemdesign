@@ -1,0 +1,6 @@
+{
+  "name": "AEM DESIGN",
+  "description": "Artă auto premium: tablouri cu mașini desenate de mână, agende personalizate și stickere auto de înaltă calitate.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
