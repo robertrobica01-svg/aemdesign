@@ -6,9 +6,10 @@ interface ProductCardProps {
   key?: string | number;
   product: Product;
   onOrderNow: (product: Product) => void;
+  onSelectProduct: (product: Product) => void;
 }
 
-export default function ProductCard({ product, onOrderNow }: ProductCardProps) {
+export default function ProductCard({ product, onOrderNow, onSelectProduct }: ProductCardProps) {
   const [showQuickView, setShowQuickView] = useState(false);
 
   const getCategoryLabel = (category: string) => {
@@ -39,7 +40,10 @@ export default function ProductCard({ product, onOrderNow }: ProductCardProps) {
         </div>
 
         {/* Product Image Stage */}
-        <div className="relative aspect-[4/3] w-full bg-[#111111] overflow-hidden flex items-center justify-center">
+        <div 
+          onClick={() => onSelectProduct(product)}
+          className="relative aspect-[4/3] w-full bg-[#111111] overflow-hidden flex items-center justify-center cursor-pointer"
+        >
           {/* Decorative design lines simulating technical blueprints on hover */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full border border-white/30 rotate-12 scale-110"></div>
@@ -59,7 +63,7 @@ export default function ProductCard({ product, onOrderNow }: ProductCardProps) {
           {/* Quick actions overlay */}
           <div className="absolute inset-0 bg-[#0A0A0A]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-10">
             <button
-              onClick={() => setShowQuickView(true)}
+              onClick={() => onSelectProduct(product)}
               className="flex items-center justify-center bg-white text-black p-3 hover:bg-[#E30613] hover:text-white transition-colors duration-300"
               title="Vizualizare Detalii"
               id={`quickview-btn-${product.id}`}
@@ -79,7 +83,7 @@ export default function ProductCard({ product, onOrderNow }: ProductCardProps) {
 
         {/* Product Metadata info */}
         <div className="p-5 flex-1 flex flex-col justify-between bg-[#0A0A0A]">
-          <div className="mb-4">
+          <div className="mb-4 cursor-pointer" onClick={() => onSelectProduct(product)}>
             <p className="text-[10px] text-white/40 font-mono tracking-widest uppercase mb-1">
               AEM DESIGN // SPEC-0{product.id}
             </p>
@@ -100,7 +104,7 @@ export default function ProductCard({ product, onOrderNow }: ProductCardProps) {
             </div>
 
             <button
-              onClick={() => onOrderNow(product)}
+              onClick={() => onSelectProduct(product)}
               className="flex items-center gap-2 border border-white/10 hover:border-[#E30613] hover:bg-[#E30613] text-white text-[10px] uppercase tracking-wider px-4 py-2.5 transition-all duration-300 font-bold"
               id={`details-btn-${product.id}`}
             >

@@ -11,13 +11,23 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+// Increase limit to support base64 image uploads up to 20MB
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ limit: '20mb', extended: true }));
 
-// Ensure the data directory exists
+// Ensure the data directory and uploads directory exist
 const DATA_DIR = path.join(process.cwd(), 'data');
+const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
+
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
+// Serve static uploaded files BEFORE Vite middleware
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
@@ -151,6 +161,36 @@ app.post('/api/login', (req, res) => {
     res.json({ token: ADMIN_TOKEN, message: 'Autentificare reușită.' });
   } else {
     res.status(401).json({ error: 'Nume de utilizator sau parolă incorectă.' });
+  }
+});
+
+// 1.5. Upload Product Image (Admin Only)
+app.post('/api/upload', requireAdmin, (req, res) => {
+  const { image } = req.body;
+  if (!image) {
+    return res.status(400).json({ error: 'Nicio imagine primisă.' });
+  }
+
+  try {
+    // Check if the data is a valid Base64 image
+    const matches = image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    if (!matches || matches.length !== 3) {
+      return res.status(400).json({ error: 'Format imagine invalid. Trimiteți o imagine validă.' });
+    }
+
+    const imageBuffer = Buffer.from(matches[2], 'base64');
+    const extension = matches[1].split('/')[1] || 'jpg';
+    const cleanFilename = `aem-upload-${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${extension}`;
+    const filePath = path.join(UPLOADS_DIR, cleanFilename);
+
+    fs.writeFileSync(filePath, imageBuffer);
+
+    // Return the serving URL of the saved file
+    const imageUrl = `/uploads/${cleanFilename}`;
+    res.json({ imageUrl });
+  } catch (err) {
+    console.error('Error saving uploaded image:', err);
+    res.status(500).json({ error: 'Eroare la salvarea fișierului pe server.' });
   }
 });
 

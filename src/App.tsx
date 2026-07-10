@@ -5,14 +5,20 @@ import ProductCard from './components/ProductCard';
 import ContactForm from './components/ContactForm';
 import LoginModal from './components/LoginModal';
 import AdminDashboard from './components/AdminDashboard';
+import ProductDetailPage from './components/ProductDetailPage';
 import { Product } from './types';
 import { Sparkles, ArrowRight, Instagram, Phone, Mail, Clock, Eye, AlertTriangle } from 'lucide-react';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<string>('home'); // 'home', 'products', 'contact', 'admin'
+  const [currentTab, setCurrentTab] = useState<string>('home'); // 'home', 'products', 'contact', 'admin', 'product-detail'
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+  
+  // Active selected product for the detailed page
+  const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+  const [previousTab, setPreviousTab] = useState<string>('home');
+  const [customOrderDetails, setCustomOrderDetails] = useState<string>('');
   
   // Active Category filter
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -70,8 +76,13 @@ export default function App() {
     }
   };
 
-  const handleInquiryRedirect = (product: Product) => {
+  const handleInquiryRedirect = (product: Product, customOptions?: string) => {
     setSelectedProductInquiry(product);
+    if (customOptions) {
+      setCustomOrderDetails(customOptions);
+    } else {
+      setCustomOrderDetails('');
+    }
     // Switch to contact tab or scroll on home
     if (currentTab !== 'home' && currentTab !== 'contact') {
       setCurrentTab('home');
@@ -82,6 +93,17 @@ export default function App() {
         contactSec.scrollIntoView({ behavior: 'smooth' });
       }
     }, 100);
+  };
+
+  const handleSelectProduct = (product: Product) => {
+    setPreviousTab(currentTab);
+    setActiveProduct(product);
+    setCurrentTab('product-detail');
+  };
+
+  const handleBackToCatalog = () => {
+    setActiveProduct(null);
+    setCurrentTab(previousTab === 'product-detail' ? 'products' : previousTab);
   };
 
   // Filter products for public catalog display (hide hidden items for non-admins)
@@ -97,8 +119,10 @@ export default function App() {
     <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col font-sans" id="aem-app-root">
       {/* 1. Header Navigation */}
       <Header
-        currentTab={currentTab}
+        currentTab={currentTab === 'product-detail' ? 'products' : currentTab}
         setCurrentTab={(tab) => {
+          setActiveProduct(null);
+          setCustomOrderDetails('');
           if (tab === 'admin' && !isAdmin) {
             setShowLoginModal(true);
           } else {
@@ -206,6 +230,7 @@ export default function App() {
                           key={product.id}
                           product={product}
                           onOrderNow={handleInquiryRedirect}
+                          onSelectProduct={handleSelectProduct}
                         />
                       ))}
                     </div>
@@ -224,6 +249,7 @@ export default function App() {
             <ContactForm
               selectedProduct={selectedProductInquiry}
               clearSelectedProduct={() => setSelectedProductInquiry(null)}
+              customOptions={customOrderDetails}
             />
           </div>
         )}
@@ -278,6 +304,7 @@ export default function App() {
                       key={product.id}
                       product={product}
                       onOrderNow={handleInquiryRedirect}
+                      onSelectProduct={handleSelectProduct}
                     />
                   ))}
                 </div>
@@ -286,12 +313,24 @@ export default function App() {
           </div>
         )}
 
+        {/* VIEW: PRODUCT DETAIL PAGE */}
+        {currentTab === 'product-detail' && activeProduct && (
+          <ProductDetailPage
+            product={activeProduct}
+            relatedProducts={products.filter(p => p.id !== activeProduct.id && !p.isHidden)}
+            onBack={handleBackToCatalog}
+            onOrderNow={handleInquiryRedirect}
+            onSelectProduct={handleSelectProduct}
+          />
+        )}
+
         {/* VIEW: CONTACT PAGE */}
         {currentTab === 'contact' && (
           <div className="fade-in" id="contact-view-container">
             <ContactForm
               selectedProduct={selectedProductInquiry}
               clearSelectedProduct={() => setSelectedProductInquiry(null)}
+              customOptions={customOrderDetails}
             />
           </div>
         )}

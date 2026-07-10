@@ -5,9 +5,10 @@ import { Product } from '../types';
 interface ContactFormProps {
   selectedProduct: Product | null;
   clearSelectedProduct: () => void;
+  customOptions?: string;
 }
 
-export default function ContactForm({ selectedProduct, clearSelectedProduct }: ContactFormProps) {
+export default function ContactForm({ selectedProduct, clearSelectedProduct, customOptions }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,9 +24,10 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct }: C
   // Pre-fill message if a product was selected for inquiry
   useEffect(() => {
     if (selectedProduct) {
+      const extraDetails = customOptions ? `\n\nConfigurație comandă:\n${customOptions}` : '';
       setFormData(prev => ({
         ...prev,
-        message: `Salutare echipei AEM DESIGN! Sunt interesat de produsul dumneavoastră: „${selectedProduct.title}” (Preț: ${selectedProduct.price} EUR, Categoria: ${selectedProduct.category}). Vă rog să mă contactați pentru a discuta detaliile despre plată, livrare sau personalizări. Mulțumesc!`
+        message: `Salutare echipei AEM DESIGN! Sunt interesat de produsul dumneavoastră: „${selectedProduct.title}” (Preț de bază: ${selectedProduct.price} EUR, Categoria: ${selectedProduct.category}).${extraDetails}\n\nVă rog să mă contactați pentru a discuta detaliile despre plată și livrare. Mulțumesc!`
       }));
       // Scroll to form nicely
       const element = document.getElementById('contact-section');
@@ -33,7 +35,7 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct }: C
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [selectedProduct]);
+  }, [selectedProduct, customOptions]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
