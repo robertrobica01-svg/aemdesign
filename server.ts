@@ -324,6 +324,10 @@ app.delete('/api/contacts/:id', requireAdmin, (req, res) => {
 });
 
 
+// Export the app for serverless platforms like Vercel
+export default app;
+
+
 // --- VITE DEV AND PRODUCTION ASSETS INGESTION ---
 
 async function startServer() {
@@ -346,4 +350,7 @@ async function startServer() {
   });
 }
 
-startServer();
+// Only run the server directly if not running in a serverless function environment like Vercel
+if (!process.env.VERCEL) {
+  startServer();
+}
