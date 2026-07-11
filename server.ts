@@ -3,6 +3,8 @@ import path from 'path';
 import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { fileURLToPath } from 'url';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, query, orderBy, setDoc } from 'firebase/firestore';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -32,6 +34,28 @@ app.use('/uploads', express.static(UPLOADS_DIR));
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
 
+// Initialize Firebase App & Firestore
+const firebaseConfigPath = path.join(__dirname, 'firebase-applet-config.json');
+let firebaseApp: any = null;
+let db: any = null;
+
+if (fs.existsSync(firebaseConfigPath)) {
+  try {
+    const config = JSON.parse(fs.readFileSync(firebaseConfigPath, 'utf-8'));
+    firebaseApp = initializeApp(config);
+    if (config.firestoreDatabaseId) {
+      db = getFirestore(firebaseApp, config.firestoreDatabaseId);
+    } else {
+      db = getFirestore(firebaseApp);
+    }
+    console.log('Firebase successfully initialized in server.ts with database ID:', config.firestoreDatabaseId || '(default)');
+  } catch (err) {
+    console.error('Error initializing Firebase with firebase-applet-config.json:', err);
+  }
+} else {
+  console.warn('firebase-applet-config.json not found. Falling back to local data storage.');
+}
+
 // Default initial products using generated asset paths
 const DEFAULT_PRODUCTS = [
   {
@@ -39,7 +63,7 @@ const DEFAULT_PRODUCTS = [
     title: 'Tablou Porsche 911 GT3 RS - Hand Drawn',
     category: 'tablou',
     price: 180,
-    imageUrl: '/src/assets/images/car_canvas_print_1783457503595.jpg',
+    imageUrl: '/images/car_canvas_print_1783457503595.jpg',
     description: 'Desen tehnic de mână realizat în tuș și cărbune, imprimat pe hârtie premium texturată de 300g/m². Fiecare lucrare vine înrămată individual în ramă neagră metalică de tip Porsche Minimalist.',
     isHidden: false,
     createdAt: new Date('2026-07-01T10:00:00Z').toISOString()
@@ -49,7 +73,7 @@ const DEFAULT_PRODUCTS = [
     title: 'Agendă Premium Porsche Classic - Black Leather',
     category: 'agenda',
     price: 120,
-    imageUrl: '/src/assets/images/agenda_premium_1783457480402.jpg',
+    imageUrl: '/images/agenda_premium_1783457480402.jpg',
     description: 'Agendă exclusivă din piele ecologică neagră fină, cu silueta Porsche 911 embosată discret pe copertă. Hârtie crem calitativă de 90g, perfectă pentru schițe și notițe zilnice.',
     isHidden: false,
     createdAt: new Date('2026-07-02T12:00:00Z').toISOString()
@@ -59,7 +83,7 @@ const DEFAULT_PRODUCTS = [
     title: 'Set Stickere Auto „Minimalist Silhouette”',
     category: 'sticker',
     price: 45,
-    imageUrl: '/src/assets/images/stickers_collection_1783457490627.jpg',
+    imageUrl: '/images/stickers_collection_1783457490627.jpg',
     description: 'Pachet de 5 stickere auto premium fabricate din vinil premium cu finisaj mat rezistent la apă, UV și intemperii extreme. Culoare alb mat și roșu vibrant.',
     isHidden: false,
     createdAt: new Date('2026-07-03T14:30:00Z').toISOString()
@@ -69,7 +93,7 @@ const DEFAULT_PRODUCTS = [
     title: 'Tablou BMW E30 M3 - Technical Pencil Sketch',
     category: 'tablou',
     price: 165,
-    imageUrl: '/src/assets/images/hero_porsche_sketch_1783457469507.jpg',
+    imageUrl: '/images/hero_porsche_sketch_1783457469507.jpg',
     description: 'Ilustrație tehnică detaliată a legendarului model sportiv BMW E30 M3, punând în evidență liniile clasice ale caroseriei. Imprimare de înaltă rezoluție pe carton d-art de 250g.',
     isHidden: false,
     createdAt: new Date('2026-07-04T16:00:00Z').toISOString()
@@ -140,6 +164,282 @@ function writeContacts(contacts: any[]): void {
   }
 }
 
+// Define interfaces
+interface FirebaseProduct {
+  id: string;
+  title: string;
+  category: string;
+  price: number;
+  imageUrl: string;
+  description: string;
+  isHidden: boolean;
+  createdAt: string;
+}
+
+interface FirebaseContact {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: string;
+  isRead: boolean;
+}
+
+// Fetch products from Firebase or Local Fallback
+async function getFirebaseProducts(): Promise<FirebaseProduct[]> {
+  if (!db) {
+    return readProducts();
+  }
+  try {
+    const productsCol = collection(db, 'products');
+    const snapshot = await getDocs(productsCol);
+    
+    if (snapshot.empty) {
+      console.log('Firestore products collection is empty. Seeding default products...');
+      const defaultProds = readProducts(); // reads defaults or PRODUCTS_FILE
+      for (const prod of defaultProds) {
+        await setDoc(doc(db, 'products', prod.id), prod);
+      }
+      return defaultProds;
+    }
+
+    const items: FirebaseProduct[] = [];
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      let imageUrl = data.imageUrl || '';
+      if (imageUrl.startsWith('/src/assets/images/')) {
+        imageUrl = imageUrl.replace('/src/assets/images/', '/images/');
+      }
+      items.push({
+        id: docSnap.id,
+        title: data.title || '',
+        category: data.category || 'tablou',
+        price: Number(data.price) || 0,
+        imageUrl: imageUrl,
+        description: data.description || '',
+        isHidden: !!data.isHidden,
+        createdAt: data.createdAt || new Date().toISOString()
+      });
+    });
+    
+    // Sort by createdAt descending
+    items.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return items;
+  } catch (err) {
+    console.error('Error fetching products from Firestore:', err);
+    return readProducts(); // fallback
+  }
+}
+
+async function addFirebaseProduct(productData: Omit<FirebaseProduct, 'id' | 'createdAt' | 'isHidden'>): Promise<FirebaseProduct> {
+  const id = Date.now().toString();
+  const product: FirebaseProduct = {
+    id,
+    ...productData,
+    isHidden: false,
+    createdAt: new Date().toISOString()
+  };
+
+  if (db) {
+    try {
+      await setDoc(doc(db, 'products', id), product);
+      console.log('Successfully saved new product to Firestore:', id);
+    } catch (err) {
+      console.error('Failed to save product to Firestore, saving locally:', err);
+      const local = readProducts();
+      local.push(product);
+      writeProducts(local);
+    }
+  } else {
+    const local = readProducts();
+    local.push(product);
+    writeProducts(local);
+  }
+
+  return product;
+}
+
+async function updateFirebaseProduct(id: string, updates: Partial<FirebaseProduct>): Promise<FirebaseProduct | null> {
+  if (db) {
+    try {
+      const docRef = doc(db, 'products', id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const currentData = docSnap.data();
+        const cleanUpdates: any = {};
+        if (updates.isHidden !== undefined) cleanUpdates.isHidden = updates.isHidden;
+        if (updates.title !== undefined) cleanUpdates.title = updates.title;
+        if (updates.category !== undefined) cleanUpdates.category = updates.category;
+        if (updates.price !== undefined) cleanUpdates.price = updates.price;
+        if (updates.imageUrl !== undefined) cleanUpdates.imageUrl = updates.imageUrl;
+        if (updates.description !== undefined) cleanUpdates.description = updates.description;
+        
+        await updateDoc(docRef, cleanUpdates);
+        
+        const updatedData = { ...currentData, ...cleanUpdates };
+        return {
+          id,
+          title: updatedData.title || '',
+          category: updatedData.category || 'tablou',
+          price: Number(updatedData.price) || 0,
+          imageUrl: updatedData.imageUrl || '',
+          description: updatedData.description || '',
+          isHidden: !!updatedData.isHidden,
+          createdAt: updatedData.createdAt || new Date().toISOString()
+        };
+      }
+    } catch (err) {
+      console.error('Failed to update product in Firestore:', err);
+    }
+  }
+
+  // Local fallback
+  const local = readProducts();
+  const index = local.findIndex(p => p.id === id);
+  if (index === -1) return null;
+  local[index] = { ...local[index], ...updates };
+  writeProducts(local);
+  return local[index];
+}
+
+async function deleteFirebaseProduct(id: string): Promise<boolean> {
+  let deleted = false;
+  if (db) {
+    try {
+      await deleteDoc(doc(db, 'products', id));
+      deleted = true;
+    } catch (err) {
+      console.error('Failed to delete product from Firestore:', err);
+    }
+  }
+
+  // Local sync/fallback
+  const local = readProducts();
+  const filtered = local.filter(p => p.id !== id);
+  if (filtered.length !== local.length) {
+    writeProducts(filtered);
+    deleted = true;
+  }
+  return deleted;
+}
+
+// Fetch contacts from Firebase or Local Fallback
+async function getFirebaseContacts(): Promise<FirebaseContact[]> {
+  if (!db) {
+    return readContacts();
+  }
+  try {
+    const contactsCol = collection(db, 'contacts');
+    const snapshot = await getDocs(contactsCol);
+
+    if (snapshot.empty) {
+      console.log('Firestore contacts collection is empty. Seeding default contacts...');
+      const defaultConts = readContacts();
+      for (const cont of defaultConts) {
+        await setDoc(doc(db, 'contacts', cont.id), cont);
+      }
+      return defaultConts;
+    }
+
+    const items: FirebaseContact[] = [];
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      items.push({
+        id: docSnap.id,
+        name: data.name || '',
+        email: data.email || '',
+        message: data.message || '',
+        createdAt: data.createdAt || new Date().toISOString(),
+        isRead: !!data.isRead
+      });
+    });
+    
+    // Sort by createdAt descending
+    items.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return items;
+  } catch (err) {
+    console.error('Error fetching contacts from Firestore:', err);
+    return readContacts();
+  }
+}
+
+async function addFirebaseContact(contactData: Omit<FirebaseContact, 'id' | 'createdAt' | 'isRead'>): Promise<FirebaseContact> {
+  const id = `msg-${Date.now()}`;
+  const contact: FirebaseContact = {
+    id,
+    ...contactData,
+    createdAt: new Date().toISOString(),
+    isRead: false
+  };
+
+  if (db) {
+    try {
+      await setDoc(doc(db, 'contacts', id), contact);
+    } catch (err) {
+      console.error('Failed to save contact message to Firestore:', err);
+      const local = readContacts();
+      local.push(contact);
+      writeContacts(local);
+    }
+  } else {
+    const local = readContacts();
+    local.push(contact);
+    writeContacts(local);
+  }
+
+  return contact;
+}
+
+async function markFirebaseContactAsRead(id: string): Promise<FirebaseContact | null> {
+  if (db) {
+    try {
+      const docRef = doc(db, 'contacts', id);
+      await updateDoc(docRef, { isRead: true });
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        return {
+          id,
+          name: data.name || '',
+          email: data.email || '',
+          message: data.message || '',
+          createdAt: data.createdAt || new Date().toISOString(),
+          isRead: true
+        };
+      }
+    } catch (err) {
+      console.error('Failed to mark contact as read in Firestore:', err);
+    }
+  }
+
+  const local = readContacts();
+  const contact = local.find(c => c.id === id);
+  if (!contact) return null;
+  contact.isRead = true;
+  writeContacts(local);
+  return contact;
+}
+
+async function deleteFirebaseContact(id: string): Promise<boolean> {
+  let deleted = false;
+  if (db) {
+    try {
+      await deleteDoc(doc(db, 'contacts', id));
+      deleted = true;
+    } catch (err) {
+      console.error('Failed to delete contact from Firestore:', err);
+    }
+  }
+
+  const local = readContacts();
+  const filtered = local.filter(c => c.id !== id);
+  if (filtered.length !== local.length) {
+    writeContacts(filtered);
+    deleted = true;
+  }
+  return deleted;
+}
+
 // Simple Admin Authentication Middleware
 const ADMIN_TOKEN = 'aem-design-secure-token-2026';
 
@@ -152,10 +452,11 @@ function requireAdmin(req: express.Request, res: express.Response, next: express
   }
 }
 
-// --- API ROUTES ---
+// --- API ROUTES (DEFINED ON A ROUTER TO BE MOUNTED FLEXIBLY) ---
+const apiRouter = express.Router();
 
 // 1. Admin Login
-app.post('/api/login', (req, res) => {
+apiRouter.post('/login', (req, res) => {
   const { username, password } = req.body;
   if ((username === 'admin' && password === 'admin') || (username === 'admin' && password === 'aem_design_2026')) {
     res.json({ token: ADMIN_TOKEN, message: 'Autentificare reușită.' });
@@ -165,7 +466,7 @@ app.post('/api/login', (req, res) => {
 });
 
 // 1.5. Upload Product Image (Admin Only)
-app.post('/api/upload', requireAdmin, (req, res) => {
+apiRouter.post('/upload', requireAdmin, (req, res) => {
   const { image } = req.body;
   if (!image) {
     return res.status(400).json({ error: 'Nicio imagine primisă.' });
@@ -195,133 +496,140 @@ app.post('/api/upload', requireAdmin, (req, res) => {
 });
 
 // 2. Get Products (Public)
-app.get('/api/products', (req, res) => {
-  const products = readProducts();
-  res.json(products);
+apiRouter.get('/products', async (req, res) => {
+  try {
+    const products = await getFirebaseProducts();
+    res.json(products);
+  } catch (err) {
+    console.error('Error fetching products:', err);
+    res.status(500).json({ error: 'Eroare la încărcarea catalogului.' });
+  }
 });
 
 // 3. Add Product (Admin Only)
-app.post('/api/products', requireAdmin, (req, res) => {
+apiRouter.post('/products', requireAdmin, async (req, res) => {
   const { title, category, price, imageUrl, description } = req.body;
   
   if (!title || !category || price === undefined || !imageUrl) {
     return res.status(400).json({ error: 'Câmpuri obligatorii lipsă (titlu, categorie, preț, imagine).' });
   }
 
-  const products = readProducts();
-  const newProduct = {
-    id: Date.now().toString(),
-    title,
-    category,
-    price: parseFloat(price),
-    imageUrl,
-    description: description || '',
-    isHidden: false,
-    createdAt: new Date().toISOString()
-  };
-
-  products.push(newProduct);
-  writeProducts(products);
-  res.status(201).json(newProduct);
+  try {
+    const newProduct = await addFirebaseProduct({
+      title,
+      category,
+      price: parseFloat(price),
+      imageUrl,
+      description: description || ''
+    });
+    res.status(201).json(newProduct);
+  } catch (err) {
+    console.error('Error adding product:', err);
+    res.status(500).json({ error: 'Eroare la salvarea produsului.' });
+  }
 });
 
 // 4. Update Product (Admin Only - can be toggle visibility/delete/modify)
-app.patch('/api/products/:id', requireAdmin, (req, res) => {
+apiRouter.patch('/products/:id', requireAdmin, async (req, res) => {
   const { id } = req.params;
   const { isHidden, title, category, price, imageUrl, description } = req.body;
 
-  const products = readProducts();
-  const productIndex = products.findIndex(p => p.id === id);
+  try {
+    const updatedProduct = await updateFirebaseProduct(id, {
+      isHidden,
+      title,
+      category,
+      price: price !== undefined ? parseFloat(price) : undefined,
+      imageUrl,
+      description
+    });
 
-  if (productIndex === -1) {
-    return res.status(404).json({ error: 'Produsul nu a fost găsit.' });
+    if (!updatedProduct) {
+      return res.status(404).json({ error: 'Produsul nu a fost găsit.' });
+    }
+    res.json(updatedProduct);
+  } catch (err) {
+    console.error('Error updating product:', err);
+    res.status(500).json({ error: 'Eroare la actualizarea produsului.' });
   }
-
-  const product = products[productIndex];
-  if (isHidden !== undefined) product.isHidden = isHidden;
-  if (title !== undefined) product.title = title;
-  if (category !== undefined) product.category = category;
-  if (price !== undefined) product.price = parseFloat(price);
-  if (imageUrl !== undefined) product.imageUrl = imageUrl;
-  if (description !== undefined) product.description = description;
-
-  writeProducts(products);
-  res.json(product);
 });
 
 // 5. Delete Product (Admin Only)
-app.delete('/api/products/:id', requireAdmin, (req, res) => {
+apiRouter.delete('/products/:id', requireAdmin, async (req, res) => {
   const { id } = req.params;
-  let products = readProducts();
-  const originalLength = products.length;
-  products = products.filter(p => p.id !== id);
-
-  if (products.length === originalLength) {
-    return res.status(404).json({ error: 'Produsul nu a fost găsit.' });
+  try {
+    const success = await deleteFirebaseProduct(id);
+    if (!success) {
+      return res.status(404).json({ error: 'Produsul nu a fost găsit.' });
+    }
+    res.json({ message: 'Produs șters cu succes.' });
+  } catch (err) {
+    console.error('Error deleting product:', err);
+    res.status(500).json({ error: 'Eroare la ștergerea produsului.' });
   }
-
-  writeProducts(products);
-  res.json({ message: 'Produs șters cu succes.' });
 });
 
 // 6. Contact Form Submission (Public)
-app.post('/api/contact', (req, res) => {
+apiRouter.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'Toate câmpurile (nume, email, mesaj) sunt obligatorii.' });
   }
 
-  const contacts = readContacts();
-  const newContact = {
-    id: `msg-${Date.now()}`,
-    name,
-    email,
-    message,
-    createdAt: new Date().toISOString(),
-    isRead: false
-  };
-
-  contacts.push(newContact);
-  writeContacts(contacts);
-  res.status(201).json({ success: true, message: 'Mesajul a fost trimis cu succes! Te vom contacta în curând.' });
+  try {
+    const newContact = await addFirebaseContact({ name, email, message });
+    res.status(201).json({ success: true, message: 'Mesajul a fost trimis cu succes! Te vom contacta în curând.', contact: newContact });
+  } catch (err) {
+    console.error('Error adding contact message:', err);
+    res.status(500).json({ error: 'Eroare la trimiterea mesajului.' });
+  }
 });
 
 // 7. Get Contact Messages (Admin Only)
-app.get('/api/contacts', requireAdmin, (req, res) => {
-  const contacts = readContacts();
-  res.json(contacts);
+apiRouter.get('/contacts', requireAdmin, async (req, res) => {
+  try {
+    const contacts = await getFirebaseContacts();
+    res.json(contacts);
+  } catch (err) {
+    console.error('Error fetching contacts:', err);
+    res.status(500).json({ error: 'Eroare la obținerea mesajelor.' });
+  }
 });
 
 // 8. Mark Contact Message as Read (Admin Only)
-app.patch('/api/contacts/:id/read', requireAdmin, (req, res) => {
+apiRouter.patch('/contacts/:id/read', requireAdmin, async (req, res) => {
   const { id } = req.params;
-  const contacts = readContacts();
-  const contact = contacts.find(c => c.id === id);
-
-  if (!contact) {
-    return res.status(404).json({ error: 'Mesajul nu a fost găsit.' });
+  try {
+    const updated = await markFirebaseContactAsRead(id);
+    if (!updated) {
+      return res.status(404).json({ error: 'Mesajul nu a fost găsit.' });
+    }
+    res.json(updated);
+  } catch (err) {
+    console.error('Error marking message as read:', err);
+    res.status(500).json({ error: 'Eroare la actualizarea mesajului.' });
   }
-
-  contact.isRead = true;
-  writeContacts(contacts);
-  res.json(contact);
 });
 
 // 9. Delete Contact Message (Admin Only)
-app.delete('/api/contacts/:id', requireAdmin, (req, res) => {
+apiRouter.delete('/contacts/:id', requireAdmin, async (req, res) => {
   const { id } = req.params;
-  let contacts = readContacts();
-  const originalLength = contacts.length;
-  contacts = contacts.filter(c => c.id !== id);
-
-  if (contacts.length === originalLength) {
-    return res.status(404).json({ error: 'Mesajul nu a fost găsit.' });
+  try {
+    const success = await deleteFirebaseContact(id);
+    if (!success) {
+      return res.status(404).json({ error: 'Mesajul nu a fost găsit.' });
+    }
+    res.json({ message: 'Mesaj șters cu succes.' });
+  } catch (err) {
+    console.error('Error deleting contact message:', err);
+    res.status(500).json({ error: 'Eroare la ștergerea mesajului.' });
   }
-
-  writeContacts(contacts);
-  res.json({ message: 'Mesaj șters cu succes.' });
 });
+
+// Mount the api router at both /api and / to be extremely resilient on serverless hosts like Vercel
+app.use('/api', apiRouter);
+app.use(apiRouter);
 
 
 // Export the app for serverless platforms like Vercel
