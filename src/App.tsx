@@ -116,7 +116,18 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col font-sans" id="aem-app-root">
+    <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col font-sans relative" id="aem-app-root">
+      {/* Subtle, diffuse background watermark: Porsche 911 Pencil Technical Sketch with dimensions */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-0 opacity-[0.03] sm:opacity-[0.04] select-none"
+        style={{
+          backgroundImage: 'url("/images/hero_porsche_sketch_1783457469507.jpg")',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+        aria-hidden="true"
+      />
       {/* 1. Header Navigation */}
       <Header
         currentTab={currentTab === 'product-detail' ? 'products' : currentTab}
