@@ -5,7 +5,6 @@ import { createServer as createViteServer } from 'vite';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, query, orderBy, setDoc } from 'firebase/firestore';
-import firebaseConfig from './firebase-applet-config.json';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -38,8 +37,26 @@ const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
 // Initialize Firebase App & Firestore
 let firebaseApp: any = null;
 let db: any = null;
+let firebaseConfig: any = null;
 
 try {
+  const possiblePaths = [
+    path.join(process.cwd(), 'firebase-applet-config.json'),
+    path.join(__dirname, 'firebase-applet-config.json'),
+    path.join(__dirname, '..', 'firebase-applet-config.json')
+  ];
+
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) {
+      try {
+        firebaseConfig = JSON.parse(fs.readFileSync(p, 'utf-8'));
+        break;
+      } catch (e) {
+        console.warn(`Failed to parse config at ${p}:`, e);
+      }
+    }
+  }
+
   if (firebaseConfig && firebaseConfig.projectId) {
     firebaseApp = initializeApp(firebaseConfig);
     if (firebaseConfig.firestoreDatabaseId) {
@@ -49,10 +66,10 @@ try {
     }
     console.log('Firebase successfully initialized in server.ts with database ID:', firebaseConfig.firestoreDatabaseId || '(default)');
   } else {
-    console.warn('Statically imported firebase-applet-config.json is empty or invalid. Falling back to local storage.');
+    console.warn('firebase-applet-config.json not found or invalid. Falling back to local storage.');
   }
 } catch (err) {
-  console.error('Error initializing Firebase with imported config:', err);
+  console.error('Error initializing Firebase with dynamic config:', err);
 }
 
 // Default initial products using generated asset paths
