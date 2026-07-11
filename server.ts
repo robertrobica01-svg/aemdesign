@@ -35,11 +35,24 @@ const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
 
 // Initialize Firebase App & Firestore
-const firebaseConfigPath = path.join(__dirname, 'firebase-applet-config.json');
+let firebaseConfigPath = '';
+const possiblePaths = [
+  path.join(process.cwd(), 'firebase-applet-config.json'),
+  path.join(__dirname, 'firebase-applet-config.json'),
+  path.join(__dirname, '..', 'firebase-applet-config.json')
+];
+
+for (const p of possiblePaths) {
+  if (fs.existsSync(p)) {
+    firebaseConfigPath = p;
+    break;
+  }
+}
+
 let firebaseApp: any = null;
 let db: any = null;
 
-if (fs.existsSync(firebaseConfigPath)) {
+if (firebaseConfigPath) {
   try {
     const config = JSON.parse(fs.readFileSync(firebaseConfigPath, 'utf-8'));
     firebaseApp = initializeApp(config);
