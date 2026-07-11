@@ -93,8 +93,8 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
         {/* Title */}
         <div className="text-center md:text-left mb-12" id="contact-header">
           <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
-            <div className="w-8 h-px bg-[#E30613]"></div>
-            <span className="text-[10px] tracking-[0.3em] uppercase text-[#E30613] font-bold">Contact</span>
+            <div className="w-8 h-px bg-[#10B981]"></div>
+            <span className="text-[10px] tracking-[0.3em] uppercase text-[#10B981] font-bold">Contact</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl font-light text-white tracking-wide">
             Colaborează cu <span className="font-semibold">AEM DESIGN</span>
@@ -106,9 +106,9 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
 
         {/* Product notification banner inside form section */}
         {selectedProduct && (
-          <div className="mb-8 p-4 bg-[#111] border-l-2 border-[#E30613] flex items-center justify-between text-xs font-mono tracking-wider" id="product-contact-banner">
+          <div className="mb-8 p-4 bg-[#111] border-l-2 border-[#10B981] flex items-center justify-between text-xs font-mono tracking-wider" id="product-contact-banner">
             <div className="flex items-center gap-3">
-              <span className="text-[#E30613] font-bold">SOLICITARE PRODUSE:</span>
+              <span className="text-[#10B981] font-bold">SOLICITARE PRODUSE:</span>
               <span className="text-white/80">{selectedProduct.title} ({selectedProduct.price} EUR)</span>
             </div>
             <button 
@@ -136,31 +136,31 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
               {/* Contact Icons */}
               <div className="space-y-6" id="contact-info-items">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#111] border border-white/5 text-[#E30613]">
+                  <div className="p-3 bg-[#111] border border-white/5 text-[#10B981]">
                     <Mail size={16} />
                   </div>
                   <div>
                     <h4 className="text-[10px] text-white/40 uppercase tracking-widest font-mono">Email Direct</h4>
-                    <a href="mailto:office@aemdesign.ro" className="text-white hover:text-[#E30613] text-sm font-light transition-colors">
+                    <a href="mailto:office@aemdesign.ro" className="text-white hover:text-[#10B981] text-sm font-light transition-colors">
                       office@aemdesign.ro
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#111] border border-white/5 text-[#E30613]">
+                  <div className="p-3 bg-[#111] border border-white/5 text-[#10B981]">
                     <Phone size={16} />
                   </div>
                   <div>
                     <h4 className="text-[10px] text-white/40 uppercase tracking-widest font-mono">Telefon / WhatsApp</h4>
-                    <a href="tel:+40722000000" className="text-white hover:text-[#E30613] text-sm font-light transition-colors">
+                    <a href="tel:+40722000000" className="text-white hover:text-[#10B981] text-sm font-light transition-colors">
                       +40 722 000 000
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#111] border border-white/5 text-[#E30613]">
+                  <div className="p-3 bg-[#111] border border-white/5 text-[#10B981]">
                     <MapPin size={16} />
                   </div>
                   <div>
@@ -181,7 +181,7 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
                   href="https://instagram.com/aem.design"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 text-xs uppercase tracking-widest text-neutral-400 hover:text-white bg-[#111] hover:bg-[#E30613] px-4 py-2 border border-white/5 transition-all duration-300"
+                  className="flex items-center gap-2 text-xs uppercase tracking-widest text-neutral-400 hover:text-white bg-[#111] hover:bg-[#10B981] px-4 py-2 border border-white/5 transition-all duration-300"
                 >
                   <Instagram size={14} />
                   <span>Instagram</span>
@@ -208,7 +208,7 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
                     onChange={handleChange}
                     placeholder="Ex: Robert Ionescu"
                     required
-                    className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#E30613] font-sans placeholder-white/20 transition-all duration-300"
+                    className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#10B981] font-sans placeholder-white/20 transition-all duration-300"
                   />
                 </div>
 
@@ -224,7 +224,7 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
                     onChange={handleChange}
                     placeholder="Ex: robert@example.ro"
                     required
-                    className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#E30613] font-sans placeholder-white/20 transition-all duration-300"
+                    className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#10B981] font-sans placeholder-white/20 transition-all duration-300"
                   />
                 </div>
               </div>
@@ -241,7 +241,7 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
                   onChange={handleChange}
                   placeholder="Scrie detaliat specificațiile mașinii pe care dorești să o desenăm sau detalii comandă..."
                   required
-                  className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#E30613] font-sans placeholder-white/20 resize-none transition-all duration-300"
+                  className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#10B981] font-sans placeholder-white/20 resize-none transition-all duration-300"
                 />
               </div>
 
@@ -251,7 +251,7 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
                   className={`p-4 flex gap-3 text-xs font-mono border ${
                     status.type === 'success' 
                       ? 'bg-green-950/20 border-green-800 text-green-400' 
-                      : 'bg-red-950/20 border-[#E30613] text-[#E30613]'
+                      : 'bg-emerald-950/20 border-[#10B981] text-[#10B981]'
                   }`}
                   id="form-status-alert"
                 >
@@ -264,7 +264,7 @@ export default function ContactForm({ selectedProduct, clearSelectedProduct, cus
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#E30613] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#C20510] active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50"
+                className="w-full bg-[#10B981] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#059669] active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50"
                 id="submit-contact-btn"
               >
                 {loading ? (

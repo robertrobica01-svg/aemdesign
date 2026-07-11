@@ -278,8 +278,8 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
         <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-8 mb-10" id="dash-header">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-px bg-[#E30613]"></div>
-              <span className="text-[10px] tracking-[0.3em] uppercase text-[#E30613] font-bold">Panou de Control</span>
+              <div className="w-8 h-px bg-[#10B981]"></div>
+              <span className="text-[10px] tracking-[0.3em] uppercase text-[#10B981] font-bold">Panou de Control</span>
             </div>
             <h2 className="font-display text-3xl font-light text-white tracking-wide">
               AEM <span className="font-semibold">DESIGN LAB</span>
@@ -315,7 +315,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
               <Mail size={13} />
               <span>Mesaje Contact</span>
               {unreadMessagesCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#E30613] text-white rounded-full flex items-center justify-center text-[8px] font-bold">
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#10B981] text-white rounded-full flex items-center justify-center text-[8px] font-bold">
                   {unreadMessagesCount}
                 </span>
               )}
@@ -329,7 +329,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
               }`}
               id="tab-btn-firebase"
             >
-              <Settings size={13} className="text-[#E30613]" />
+              <Settings size={13} className="text-[#10B981]" />
               <span>Integrare Firebase</span>
             </button>
           </div>
@@ -355,7 +355,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
           </div>
           <div className="bg-[#0E0E0E] p-5 border border-white/5 col-span-2 md:col-span-1">
             <p className="text-[9px] uppercase text-white/40 font-mono tracking-widest mb-1">Mesaje Necitite</p>
-            <p className="text-2xl font-light text-[#E30613]">{unreadMessagesCount}</p>
+            <p className="text-2xl font-light text-[#10B981]">{unreadMessagesCount}</p>
           </div>
         </div>
 
@@ -366,7 +366,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
             <div className="lg:col-span-5 bg-[#0E0E0E] border border-white/5 p-6 sm:p-8 flex flex-col justify-between" id="add-product-form-container">
               <div>
                 <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
-                  <Plus size={16} className="text-[#E30613]" />
+                  <Plus size={16} className="text-[#10B981]" />
                   <h3 className="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">Adăugare Produs Nou</h3>
                 </div>
 
@@ -379,7 +379,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                       onChange={(e) => setTitle(e.target.value)}
                       placeholder="Ex: Tablou Porsche 911 GT3 RS"
                       required
-                      className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#E30613]"
+                      className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#10B981]"
                     />
                   </div>
 
@@ -389,7 +389,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value as any)}
-                        className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#E30613]"
+                        className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#10B981]"
                       >
                         <option value="tablou">Tablou</option>
                         <option value="agenda">Agendă</option>
@@ -406,7 +406,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                         placeholder="180"
                         required
                         min="0"
-                        className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#E30613]"
+                        className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#10B981]"
                       />
                     </div>
                   </div>
@@ -422,7 +422,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                       onDrop={handleDrop}
                       className={`border border-dashed p-4 flex flex-col items-center justify-center text-center transition-all cursor-pointer rounded ${
                         dragActive 
-                          ? 'border-[#E30613] bg-[#E30613]/5' 
+                          ? 'border-[#10B981] bg-[#10B981]/5' 
                           : 'border-white/10 bg-black/20 hover:border-white/20'
                       }`}
                       onClick={() => document.getElementById('file-upload-input')?.click()}
@@ -437,7 +437,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                       
                       {fileUploading ? (
                         <div className="flex flex-col items-center gap-2 py-2">
-                          <div className="w-5 h-5 border-2 border-t-[#E30613] border-white/20 rounded-full animate-spin"></div>
+                          <div className="w-5 h-5 border-2 border-t-[#10B981] border-white/20 rounded-full animate-spin"></div>
                           <span className="text-[10px] font-mono text-white/50 uppercase tracking-wider">Se încarcă imaginea...</span>
                         </div>
                       ) : imageUrl ? (
@@ -474,7 +474,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                         onChange={(e) => setImageUrl(e.target.value)}
                         placeholder="Ex: /uploads/imagine.jpg sau https://..."
                         required
-                        className="w-full bg-[#111] border border-white/10 p-2.5 text-[10px] text-white/80 focus:outline-none focus:border-[#E30613] mt-1 font-mono"
+                        className="w-full bg-[#111] border border-white/10 p-2.5 text-[10px] text-white/80 focus:outline-none focus:border-[#10B981] mt-1 font-mono"
                       />
                     </div>
 
@@ -489,7 +489,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                             onClick={() => setImageUrl(img.url)}
                             className={`p-2 text-[8px] font-mono tracking-wider text-left border rounded transition-all truncate ${
                               imageUrl === img.url 
-                                ? 'bg-[#E30613]/10 border-[#E30613] text-white' 
+                                ? 'bg-[#10B981]/10 border-[#10B981] text-white' 
                                 : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20'
                             }`}
                           >
@@ -507,7 +507,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="Ex: Desen tehnic premium realizat în creion și cerneală..."
                       rows={3}
-                      className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#E30613] resize-none"
+                      className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#10B981] resize-none"
                     />
                   </div>
 
@@ -516,7 +516,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                       className={`p-3 text-xs font-mono border ${
                         message.type === 'success' 
                           ? 'bg-green-950/20 border-green-800 text-green-400' 
-                          : 'bg-red-950/20 border-[#E30613] text-[#E30613]'
+                          : 'bg-emerald-950/20 border-[#10B981] text-[#10B981]'
                       }`}
                     >
                       {message.text}
@@ -526,7 +526,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-[#E30613] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#C20510] transition-all disabled:opacity-50"
+                    className="w-full bg-[#10B981] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#059669] transition-all disabled:opacity-50"
                   >
                     {loading ? 'Se publică...' : 'Publică Artă'}
                   </button>
@@ -538,7 +538,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
             <div className="lg:col-span-7 bg-[#0E0E0E] border border-white/5 p-6 sm:p-8" id="product-management-table-container">
               <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
                 <div className="flex items-center gap-2">
-                  <FolderSync size={16} className="text-[#E30613]" />
+                  <FolderSync size={16} className="text-[#10B981]" />
                   <h3 className="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">Management Articole</h3>
                 </div>
                 <span className="text-[9px] text-white/40 font-mono uppercase">{products.length} Unități</span>
@@ -591,7 +591,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                               onClick={() => handleToggleHide(product.id, product.isHidden)}
                               className={`p-2 border transition-all ${
                                 product.isHidden 
-                                  ? 'bg-red-950/20 border-[#E30613]/50 text-[#E30613]' 
+                                  ? 'bg-[#10B981]/10 border-[#10B981]/50 text-[#10B981]' 
                                   : 'bg-white/5 border-white/5 text-white/50 hover:text-white hover:border-white/20'
                               }`}
                               title={product.isHidden ? "Afișează pe site" : "Ascunde de pe site"}
@@ -602,7 +602,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                             {/* Delete */}
                             <button
                               onClick={() => handleDeleteProduct(product.id)}
-                              className="p-2 bg-white/5 border border-white/5 text-white/50 hover:bg-[#E30613]/10 hover:border-[#E30613] hover:text-[#E30613] transition-all"
+                              className="p-2 bg-white/5 border border-white/5 text-white/50 hover:bg-[#10B981]/10 hover:border-[#10B981] hover:text-[#10B981] transition-all"
                               title="Șterge definitiv"
                             >
                               <Trash2 size={14} />
@@ -632,7 +632,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
           <div className="bg-[#0E0E0E] border border-white/5 p-6 sm:p-8" id="messages-tab-content">
             <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <div className="flex items-center gap-2">
-                <Mail size={16} className="text-[#E30613]" />
+                <Mail size={16} className="text-[#10B981]" />
                 <h3 className="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">Mesaje Primite de la Clienți</h3>
               </div>
               <span className="text-[9px] text-white/40 font-mono uppercase">{contacts.length} Total</span>
@@ -650,7 +650,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                     className={`p-5 border transition-all ${
                       msg.isRead 
                         ? 'bg-black/30 border-white/5 text-white/60' 
-                        : 'bg-[#111] border-[#E30613]/20 shadow-[inset_4px_0_0_0_#E30613]'
+                        : 'bg-[#111] border-[#10B981]/20 shadow-[inset_4px_0_0_0_#10B981]'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -668,7 +668,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                         {!msg.isRead && (
                           <button
                             onClick={() => handleMarkAsRead(msg.id)}
-                            className="flex items-center gap-1.5 bg-white/5 hover:bg-[#E30613] hover:text-white border border-white/5 text-xs text-white/70 px-3 py-1.5 uppercase tracking-wider font-bold transition-all"
+                            className="flex items-center gap-1.5 bg-white/5 hover:bg-[#10B981] hover:text-white border border-white/5 text-xs text-white/70 px-3 py-1.5 uppercase tracking-wider font-bold transition-all"
                           >
                             <Check size={12} />
                             <span className="text-[9px]">Marchează Citit</span>
@@ -693,7 +693,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                     <div className="mt-4 flex gap-4">
                       <a 
                         href={`mailto:${msg.email}?subject=Raspuns AEM DESIGN - Solicitare`} 
-                        className="text-[10px] text-[#E30613] hover:underline uppercase tracking-widest font-mono"
+                        className="text-[10px] text-[#10B981] hover:underline uppercase tracking-widest font-mono"
                       >
                         Răspunde prin Email &rarr;
                       </a>
@@ -715,7 +715,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
           <div className="bg-[#0E0E0E] border border-white/5 p-6 sm:p-8" id="firebase-tab-content">
             <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <div className="flex items-center gap-2">
-                <Settings size={16} className="text-[#E30613]" />
+                <Settings size={16} className="text-[#10B981]" />
                 <h3 className="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">Configurare Integrare Firebase</h3>
               </div>
               <span className="text-[9px] text-green-400 font-mono uppercase bg-green-950/20 border border-green-800 px-2 py-0.5">Status: Activ & Pregătit</span>
@@ -727,7 +727,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
               <div className="space-y-6">
                 <div className="bg-white/[0.02] border border-white/5 p-6">
                   <h4 className="text-white font-medium text-sm mb-3 flex items-center gap-2">
-                    <Sparkles size={14} className="text-[#E30613]" />
+                    <Sparkles size={14} className="text-[#10B981]" />
                     Cum funcționează?
                   </h4>
                   <p className="text-white/70 text-xs leading-relaxed mb-4">
@@ -741,7 +741,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                 <div className="border border-white/5 p-6 space-y-4">
                   <h4 className="text-white font-medium text-xs uppercase tracking-wider font-mono">Instrucțiuni de Conectare:</h4>
                   <ol className="list-decimal list-inside text-white/60 text-xs space-y-2 font-light">
-                    <li>Mergeți în <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer" className="text-[#E30613] underline hover:text-white">Consola Firebase</a> și creați un proiect nou.</li>
+                    <li>Mergeți în <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer" className="text-[#10B981] underline hover:text-white">Consola Firebase</a> și creați un proiect nou.</li>
                     <li>Activați <strong>Cloud Firestore</strong> în modul de testare (sau modul producție cu reguli deschise pentru scriere/citire).</li>
                     <li>Activați <strong>Firebase Storage</strong> pentru stocarea fișierelor media.</li>
                     <li>Creați o aplicație de tip Web și copiați obiectul <code>firebaseConfig</code> oferit de Firebase.</li>
@@ -766,7 +766,7 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
                     }}
                     placeholder={`{\n  "apiKey": "AIzaSy...",\n  "authDomain": "proiectul-tau.firebaseapp.com",\n  "projectId": "proiectul-tau",\n  "storageBucket": "proiectul-tau.appspot.com",\n  "messagingSenderId": "123456789",\n  "appId": "1:1234:web:abcd"\n}`}
                     rows={8}
-                    className="w-full bg-[#090909] border border-white/10 p-4 text-[11px] font-mono text-white focus:outline-none focus:border-[#E30613] resize-y"
+                    className="w-full bg-[#090909] border border-white/10 p-4 text-[11px] font-mono text-white focus:outline-none focus:border-[#10B981] resize-y"
                   />
                   <p className="text-[9px] text-white/30 font-mono">
                     Această cheie va fi stocată local securizat în browser pentru a realiza conexiunea directă.

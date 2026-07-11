@@ -36,7 +36,7 @@ export default function Header({
           {/* Logo */}
           <div className="flex-shrink-0 cursor-pointer" onClick={() => handleNavClick('home')} id="logo-container">
             <span className="font-display text-xl sm:text-2xl font-bold tracking-[0.25em] text-white">
-              AEM <span className="text-red-600">DESIGN</span>
+              AEM <span className="text-emerald-500">DESIGN</span>
             </span>
           </div>
 
@@ -55,7 +55,7 @@ export default function Header({
               >
                 {item.label}
                 {currentTab === item.id && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-red-600 transition-all duration-300" />
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-emerald-500 transition-all duration-300" />
                 )}
               </button>
             ))}
@@ -77,7 +77,7 @@ export default function Header({
                 </button>
                 <button
                   onClick={onLogout}
-                  className="p-2 text-neutral-400 hover:text-red-500 transition-colors"
+                  className="p-2 text-neutral-400 hover:text-emerald-500 transition-colors"
                   title="Ieșire"
                   id="logout-button"
                 >
@@ -87,7 +87,7 @@ export default function Header({
             ) : (
               <button
                 onClick={onOpenLogin}
-                className="flex items-center space-x-2 text-xs uppercase tracking-widest border border-neutral-800 px-4 py-2 hover:border-red-600 text-neutral-400 hover:text-white transition-all duration-300"
+                className="flex items-center space-x-2 text-xs uppercase tracking-widest border border-neutral-800 px-4 py-2 hover:border-emerald-500 text-neutral-400 hover:text-white transition-all duration-300"
                 id="login-trigger-button"
               >
                 <User size={14} />
@@ -118,7 +118,7 @@ export default function Header({
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
                 className={`text-left font-display text-sm uppercase tracking-widest py-2 border-b border-neutral-900 ${
-                  currentTab === item.id ? 'text-red-500 font-medium pl-2 border-l-2 border-red-500' : 'text-neutral-400'
+                  currentTab === item.id ? 'text-emerald-500 font-medium pl-2 border-l-2 border-emerald-500' : 'text-neutral-400'
                 }`}
                 id={`mobile-nav-${item.id}`}
               >
@@ -131,7 +131,7 @@ export default function Header({
                 <button
                   onClick={() => handleNavClick('admin')}
                   className={`flex items-center space-x-2 font-display text-sm uppercase tracking-widest py-2 ${
-                    currentTab === 'admin' ? 'text-red-500' : 'text-neutral-400'
+                    currentTab === 'admin' ? 'text-emerald-500' : 'text-neutral-400'
                   }`}
                   id="mobile-nav-admin"
                 >
@@ -143,7 +143,7 @@ export default function Header({
                     onLogout();
                     setIsOpen(false);
                   }}
-                  className="flex items-center space-x-2 font-display text-sm uppercase tracking-widest text-red-500 py-2"
+                  className="flex items-center space-x-2 font-display text-sm uppercase tracking-widest text-emerald-500 py-2"
                   id="mobile-logout-button"
                 >
                   <LogOut size={16} />
@@ -156,7 +156,7 @@ export default function Header({
                   onOpenLogin();
                   setIsOpen(false);
                 }}
-                className="flex items-center justify-center space-x-2 font-display text-xs uppercase tracking-widest border border-neutral-800 hover:border-red-600 py-3 mt-4 text-neutral-400 hover:text-white transition-all"
+                className="flex items-center justify-center space-x-2 font-display text-xs uppercase tracking-widest border border-neutral-800 hover:border-emerald-500 py-3 mt-4 text-neutral-400 hover:text-white transition-all"
                 id="mobile-login-trigger"
               >
                 <User size={14} />

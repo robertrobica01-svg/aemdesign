@@ -9,7 +9,7 @@ export default function Hero({ onExploreClick }: HeroProps) {
   return (
     <section className="relative bg-[#0A0A0A] border-b border-white/5 overflow-hidden py-16 lg:py-24" id="hero-section">
       {/* Background graphic elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_120%,rgba(227,6,19,0.08),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_120%,rgba(16,185,129,0.08),transparent_50%)]" />
       <div className="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none hidden md:block">
         <img
           src="/images/hero_porsche_sketch_1783457469507.jpg"
@@ -23,8 +23,8 @@ export default function Hero({ onExploreClick }: HeroProps) {
         <div className="max-w-2xl">
           {/* Subtle branding line */}
           <div className="flex items-center gap-3 mb-6" id="hero-badge">
-            <span className="w-8 h-px bg-[#E30613]"></span>
-            <span className="font-display text-[10px] tracking-[0.4em] text-[#E30613] uppercase font-bold">
+            <span className="w-8 h-px bg-[#10B981]"></span>
+            <span className="font-display text-[10px] tracking-[0.4em] text-[#10B981] uppercase font-bold">
               EST. 2026 / PRESTIGE AUTOMOTIVE ART
             </span>
           </div>
@@ -44,7 +44,7 @@ export default function Hero({ onExploreClick }: HeroProps) {
           <div className="flex flex-wrap gap-4" id="hero-actions">
             <button
               onClick={onExploreClick}
-              className="group flex items-center gap-3 bg-[#E30613] text-white text-xs font-bold uppercase tracking-[0.2em] px-8 py-4 hover:bg-[#C20510] active:scale-95 transition-all duration-300"
+              className="group flex items-center gap-3 bg-[#10B981] text-white text-xs font-bold uppercase tracking-[0.2em] px-8 py-4 hover:bg-[#059669] active:scale-95 transition-all duration-300"
               id="cta-explore"
             >
               <span>Explorează Colecția</span>
@@ -53,7 +53,7 @@ export default function Hero({ onExploreClick }: HeroProps) {
             
             <a
               href="#contact"
-              className="flex items-center justify-center border border-white/20 text-white hover:border-[#E30613] hover:text-[#E30613] text-xs font-bold uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300"
+              className="flex items-center justify-center border border-white/20 text-white hover:border-[#10B981] hover:text-[#10B981] text-xs font-bold uppercase tracking-[0.2em] px-8 py-4 transition-all duration-300"
               id="cta-custom-order"
               onClick={(e) => {
                 e.preventDefault();

@@ -53,7 +53,7 @@ export default function LoginModal({ onClose, onLoginSuccess }: LoginModalProps)
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 bg-[#111] p-2 border border-white/5 hover:border-[#E30613] hover:text-[#E30613] transition-colors"
+          className="absolute top-4 right-4 bg-[#111] p-2 border border-white/5 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
           id="close-login-modal-btn"
         >
           <X size={16} />
@@ -62,7 +62,7 @@ export default function LoginModal({ onClose, onLoginSuccess }: LoginModalProps)
         {/* Logo Branding */}
         <div className="text-center mb-8" id="login-branding">
           <span className="font-display text-2xl font-bold tracking-[0.25em] text-white">
-            AEM <span className="text-red-600">DESIGN</span>
+            AEM <span className="text-emerald-500">DESIGN</span>
           </span>
           <p className="text-[10px] text-white/40 tracking-[0.3em] uppercase mt-2 font-mono">
             Portal Securizat Administrare
@@ -74,7 +74,7 @@ export default function LoginModal({ onClose, onLoginSuccess }: LoginModalProps)
           
           {/* Info Tip block */}
           <div className="p-3 bg-white/5 border border-white/5 text-[10px] text-white/50 leading-relaxed font-mono tracking-wider">
-            <span className="text-[#E30613] font-bold">INFO DE LOGARE:</span> <br />
+            <span className="text-[#10B981] font-bold">INFO DE LOGARE:</span> <br />
             Utilizator: <span className="text-white">admin</span> <br />
             Parolă: <span className="text-white">admin</span> sau <span className="text-white">aem_design_2026</span>
           </div>
@@ -90,7 +90,7 @@ export default function LoginModal({ onClose, onLoginSuccess }: LoginModalProps)
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Ex: admin"
               required
-              className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#E30613] font-sans placeholder-white/20 transition-colors"
+              className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#10B981] font-sans placeholder-white/20 transition-colors"
               id="login-username-input"
             />
           </div>
@@ -106,14 +106,14 @@ export default function LoginModal({ onClose, onLoginSuccess }: LoginModalProps)
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#E30613] font-sans placeholder-white/20 transition-colors"
+              className="w-full bg-[#111] border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#10B981] font-sans placeholder-white/20 transition-colors"
               id="login-password-input"
             />
           </div>
 
           {/* Form error */}
           {error && (
-            <div className="p-3 bg-red-950/20 border border-[#E30613] text-[#E30613] text-xs font-mono flex items-center gap-2" id="login-error-alert">
+            <div className="p-3 bg-emerald-950/20 border border-[#10B981] text-[#10B981] text-xs font-mono flex items-center gap-2" id="login-error-alert">
               <AlertTriangle size={14} />
               <span>{error}</span>
             </div>
@@ -122,7 +122,7 @@ export default function LoginModal({ onClose, onLoginSuccess }: LoginModalProps)
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#E30613] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#C20510] active:scale-[0.98] transition-all duration-300 disabled:opacity-50"
+            className="w-full bg-[#10B981] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#059669] active:scale-[0.98] transition-all duration-300 disabled:opacity-50"
             id="login-submit-btn"
           >
             {loading ? 'Se conectează...' : 'Autentificare'}

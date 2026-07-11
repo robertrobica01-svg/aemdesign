@@ -158,7 +158,7 @@ export default function App() {
             <section className="py-16 bg-[#0E0E0E] border-b border-white/5" id="pitch-section">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <div className="border-l border-[#E30613] pl-6 py-2">
+                  <div className="border-l border-[#10B981] pl-6 py-2">
                     <h3 className="font-display text-sm font-bold uppercase tracking-widest text-white mb-2">Artă Fără Compromisuri</h3>
                     <p className="text-white/50 text-xs sm:text-sm font-light leading-relaxed">
                       Schițele noastre sunt transpuse pe hârtie premium texturată prin tehnici avansate de fine-art printing, oferind contrast ideal și o durabilitate de decenii.
@@ -188,8 +188,8 @@ export default function App() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6" id="catalog-header-bar">
                   <div>
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-8 h-px bg-[#E30613]"></div>
-                      <span className="text-[10px] tracking-[0.3em] uppercase text-[#E30613] font-bold">Colecții AEM</span>
+                      <div className="w-8 h-px bg-[#10B981]"></div>
+                      <span className="text-[10px] tracking-[0.3em] uppercase text-[#10B981] font-bold">Colecții AEM</span>
                     </div>
                     <h2 className="font-display text-3xl font-light text-white tracking-wide">
                       Artă auto și <span className="font-semibold">produse premium</span>
@@ -209,7 +209,7 @@ export default function App() {
                         onClick={() => setSelectedCategory(cat.id)}
                         className={`px-4 py-2.5 transition-all duration-300 border ${
                           selectedCategory === cat.id
-                            ? 'bg-[#E30613] border-[#E30613] text-white'
+                            ? 'bg-[#10B981] border-[#10B981] text-white'
                             : 'bg-[#0E0E0E] border-white/5 text-white/50 hover:border-white/20 hover:text-white'
                         }`}
                         id={`filter-${cat.id}`}
@@ -226,9 +226,9 @@ export default function App() {
                     SE DESCARCĂ CATALOGUL COMPLET AEM DESIGN...
                   </div>
                 ) : error ? (
-                  <div className="py-16 text-center border border-[#E30613]/30 bg-[#111] max-w-xl mx-auto p-8" id="catalog-error">
-                    <AlertTriangle size={32} className="mx-auto text-[#E30613] mb-4" />
-                    <p className="text-sm font-mono text-[#E30613] mb-2">{error}</p>
+                  <div className="py-16 text-center border border-[#10B981]/30 bg-[#111] max-w-xl mx-auto p-8" id="catalog-error">
+                    <AlertTriangle size={32} className="mx-auto text-[#10B981] mb-4" />
+                    <p className="text-sm font-mono text-[#10B981] mb-2">{error}</p>
                     <button onClick={fetchProducts} className="text-xs uppercase tracking-wider underline text-white/60 hover:text-white">
                       Reîncearcă conexiunea
                     </button>
@@ -272,7 +272,7 @@ export default function App() {
               
               {/* Headline */}
               <div className="text-center mb-12">
-                <p className="text-[10px] tracking-[0.4em] uppercase text-[#E30613] font-bold mb-3">EXCELENȚĂ ARTISTICĂ</p>
+                <p className="text-[10px] tracking-[0.4em] uppercase text-[#10B981] font-bold mb-3">EXCELENȚĂ ARTISTICĂ</p>
                 <h1 className="font-display text-4xl font-light text-white tracking-wide">
                   Catalogul <span className="font-semibold">AEM DESIGN</span>
                 </h1>
@@ -294,7 +294,7 @@ export default function App() {
                     onClick={() => setSelectedCategory(cat.id)}
                     className={`px-5 py-3 transition-all duration-300 border ${
                       selectedCategory === cat.id
-                        ? 'bg-[#E30613] border-[#E30613] text-white'
+                        ? 'bg-[#10B981] border-[#10B981] text-white'
                         : 'bg-[#0E0E0E] border-white/5 text-white/50 hover:border-white/20 hover:text-white'
                     }`}
                   >
@@ -367,7 +367,7 @@ export default function App() {
             {/* Branding */}
             <div className="md:col-span-2">
               <span className="font-display text-lg font-bold tracking-[0.25em] text-white block mb-4">
-                AEM <span className="text-red-600">DESIGN</span>
+                AEM <span className="text-emerald-500">DESIGN</span>
               </span>
               <p className="text-white/40 text-xs font-light max-w-sm leading-relaxed">
                 Brand independent de artă auto și personalizări. Dedicat culturii auto mondiale și perfecțiunii stilului minimalist Porsche. Fiecare linie trasată manual definește performanța.
@@ -379,17 +379,17 @@ export default function App() {
               <h4 className="text-[10px] text-white uppercase tracking-widest font-mono mb-4">Navigare Rapidă</h4>
               <ul className="space-y-2 font-light">
                 <li>
-                  <button onClick={() => setCurrentTab('home')} className="hover:text-[#E30613] transition-colors text-left">
+                  <button onClick={() => setCurrentTab('home')} className="hover:text-[#10B981] transition-colors text-left">
                     Pagina Principală
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setCurrentTab('products')} className="hover:text-[#E30613] transition-colors text-left">
+                  <button onClick={() => setCurrentTab('products')} className="hover:text-[#10B981] transition-colors text-left">
                     Produse & Tablouri
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setCurrentTab('contact')} className="hover:text-[#E30613] transition-colors text-left">
+                  <button onClick={() => setCurrentTab('contact')} className="hover:text-[#10B981] transition-colors text-left">
                     Formular de Contact
                   </button>
                 </li>
@@ -397,7 +397,7 @@ export default function App() {
                   <button onClick={() => {
                     if (isAdmin) setCurrentTab('admin');
                     else setShowLoginModal(true);
-                  }} className="hover:text-[#E30613] transition-colors text-left">
+                  }} className="hover:text-[#10B981] transition-colors text-left">
                     Portat de Administrare
                   </button>
                 </li>
@@ -418,7 +418,7 @@ export default function App() {
                 </li>
                 <li className="flex justify-between">
                   <span>Duminică:</span>
-                  <span className="text-red-500">Închis</span>
+                  <span className="text-emerald-500">Închis</span>
                 </li>
               </ul>
             </div>

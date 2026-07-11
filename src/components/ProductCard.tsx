@@ -29,12 +29,12 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
     <>
       {/* Product Card Container */}
       <div 
-        className="group relative bg-[#0E0E0E] border border-white/5 overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-white/15 hover:shadow-[0_10px_30px_-15px_rgba(227,6,19,0.15)]"
+        className="group relative bg-[#0E0E0E] border border-white/5 overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-white/15 hover:shadow-[0_10px_30px_-15px_rgba(16,185,129,0.15)]"
         id={`product-card-${product.id}`}
       >
         {/* Category & Badge Overlay */}
         <div className="absolute top-4 left-4 z-20 flex flex-col gap-1">
-          <span className="bg-[#E30613] text-white text-[9px] font-bold uppercase tracking-[0.25em] px-2.5 py-1">
+          <span className="bg-[#10B981] text-white text-[9px] font-bold uppercase tracking-[0.25em] px-2.5 py-1">
             {getCategoryLabel(product.category)}
           </span>
         </div>
@@ -64,7 +64,7 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
           <div className="absolute inset-0 bg-[#0A0A0A]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-10">
             <button
               onClick={() => onSelectProduct(product)}
-              className="flex items-center justify-center bg-white text-black p-3 hover:bg-[#E30613] hover:text-white transition-colors duration-300"
+              className="flex items-center justify-center bg-white text-black p-3 hover:bg-[#10B981] hover:text-white transition-colors duration-300"
               title="Vizualizare Detalii"
               id={`quickview-btn-${product.id}`}
             >
@@ -72,7 +72,7 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
             </button>
             <button
               onClick={() => onOrderNow(product)}
-              className="flex items-center justify-center bg-[#E30613] text-white p-3 hover:bg-[#C20510] transition-colors duration-300"
+              className="flex items-center justify-center bg-[#10B981] text-white p-3 hover:bg-[#059669] transition-colors duration-300"
               title="Comandă rapidă"
               id={`order-btn-${product.id}`}
             >
@@ -99,13 +99,13 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
             <div className="flex flex-col">
               <span className="text-[9px] text-white/30 uppercase tracking-widest">Preț</span>
               <span className="text-white text-lg font-semibold tracking-wide">
-                {product.price} <span className="text-xs text-[#E30613]">EUR</span>
+                {product.price} <span className="text-xs text-[#10B981]">EUR</span>
               </span>
             </div>
 
             <button
               onClick={() => onSelectProduct(product)}
-              className="flex items-center gap-2 border border-white/10 hover:border-[#E30613] hover:bg-[#E30613] text-white text-[10px] uppercase tracking-wider px-4 py-2.5 transition-all duration-300 font-bold"
+              className="flex items-center gap-2 border border-white/10 hover:border-[#10B981] hover:bg-[#10B981] text-white text-[10px] uppercase tracking-wider px-4 py-2.5 transition-all duration-300 font-bold"
               id={`details-btn-${product.id}`}
             >
               <span>Detalii</span>
@@ -120,7 +120,7 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
           <div className="relative bg-[#0A0A0A] border border-white/10 max-w-2xl w-full text-white overflow-hidden shadow-2xl">
             <button
               onClick={() => setShowQuickView(false)}
-              className="absolute top-4 right-4 z-50 bg-[#111] p-2 border border-white/10 hover:border-[#E30613] hover:text-[#E30613] transition-all"
+              className="absolute top-4 right-4 z-50 bg-[#111] p-2 border border-white/10 hover:border-[#10B981] hover:text-[#10B981] transition-all"
               id="close-quickview-btn"
             >
               <X size={18} />
@@ -137,13 +137,13 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
 
               <div className="p-8 flex flex-col justify-between">
                 <div>
-                  <span className="bg-[#E30613] text-white text-[9px] font-bold uppercase tracking-[0.25em] px-3 py-1">
+                  <span className="bg-[#10B981] text-white text-[9px] font-bold uppercase tracking-[0.25em] px-3 py-1">
                     {getCategoryLabel(product.category)}
                   </span>
                   <h2 className="text-2xl font-light tracking-wide text-white mt-4 mb-2">
                     {product.title}
                   </h2>
-                  <p className="text-[#E30613] text-xl font-bold tracking-wide mb-4">
+                  <p className="text-[#10B981] text-xl font-bold tracking-wide mb-4">
                     {product.price} EUR
                   </p>
                   <p className="text-white/60 text-sm font-light leading-relaxed mb-6">
@@ -153,11 +153,11 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
 
                 <div className="space-y-4 pt-4 border-t border-white/5">
                   <div className="flex items-center gap-3 text-[10px] text-white/40 tracking-wider">
-                    <span className="w-1.5 h-1.5 bg-[#E30613] rounded-full"></span>
+                    <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full"></span>
                     <span>LIVRARE RAPIDĂ ORIUNDE ÎN ROMÂNIA</span>
                   </div>
                   <div className="flex items-center gap-3 text-[10px] text-white/40 tracking-wider">
-                    <span className="w-1.5 h-1.5 bg-[#E30613] rounded-full"></span>
+                    <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full"></span>
                     <span>FINISAJE PREMIUM DE ÎNALTĂ CALITATE</span>
                   </div>
 
@@ -166,7 +166,7 @@ export default function ProductCard({ product, onOrderNow, onSelectProduct }: Pr
                       onOrderNow(product);
                       setShowQuickView(false);
                     }}
-                    className="w-full bg-[#E30613] py-4 text-xs font-bold uppercase tracking-[0.25em] hover:bg-[#C20510] active:scale-[0.98] transition-all duration-300 mt-4 flex items-center justify-center gap-2"
+                    className="w-full bg-[#10B981] py-4 text-xs font-bold uppercase tracking-[0.25em] hover:bg-[#059669] active:scale-[0.98] transition-all duration-300 mt-4 flex items-center justify-center gap-2"
                     id="modal-order-btn"
                   >
                     <ShoppingBag size={14} />

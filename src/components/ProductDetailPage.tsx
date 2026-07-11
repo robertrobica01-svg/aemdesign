@@ -143,7 +143,7 @@ export default function ProductDetailPage({
           {/* Header Metadata */}
           <div>
             <div className="flex items-center gap-3 mb-3">
-              <span className="bg-[#E30613] text-white text-[9px] font-bold uppercase tracking-[0.25em] px-2.5 py-1">
+              <span className="bg-[#10B981] text-white text-[9px] font-bold uppercase tracking-[0.25em] px-2.5 py-1">
                 {product.category === 'tablou' ? 'TABLOU DESENAT manual' : product.category === 'agenda' ? 'AGENDĂ PERSONALIZATĂ' : 'STICKER AUTO'}
               </span>
               <span className="text-[10px] text-white/40 font-mono tracking-widest">AEM DESIGN STUDIO</span>
@@ -160,22 +160,22 @@ export default function ProductDetailPage({
             <div className="flex items-baseline gap-4 py-4 border-y border-white/5">
               <span className="text-[10px] text-white/30 font-mono uppercase tracking-widest">Preț Catalog:</span>
               <span className="text-2xl font-light text-white tracking-tight">
-                {product.price} <span className="text-sm text-[#E30613] font-bold font-mono">EUR</span>
+                {product.price} <span className="text-sm text-[#10B981] font-bold font-mono">EUR</span>
               </span>
             </div>
           </div>
 
           {/* Technical Blueprint Specifications */}
           <div className="space-y-3.5 bg-[#0E0E0E] p-5 border border-white/5">
-            <h3 className="text-[10px] text-[#E30613] font-mono font-bold tracking-widest uppercase flex items-center gap-2 mb-2">
-              <span className="w-1.5 h-1.5 bg-[#E30613] rounded-full"></span>
+            <h3 className="text-[10px] text-[#10B981] font-mono font-bold tracking-widest uppercase flex items-center gap-2 mb-2">
+              <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full"></span>
               FIȘĂ TEHNICĂ DE CONFECȚIONARE
             </h3>
             
             <div className="space-y-3">
               {getTechnicalSpecs().map((spec, idx) => (
                 <div key={idx} className="flex gap-3 text-xs leading-relaxed border-b border-white/5 pb-2 last:border-0 last:pb-0">
-                  <div className="text-[#E30613] mt-0.5">{spec.icon}</div>
+                  <div className="text-[#10B981] mt-0.5">{spec.icon}</div>
                   <div>
                     <span className="block text-[9px] text-white/30 font-mono uppercase tracking-wider">{spec.label}</span>
                     <span className="text-white/80 font-light">{spec.value}</span>
@@ -230,7 +230,7 @@ export default function ProductDetailPage({
                 value={personalization}
                 onChange={(e) => setPersonalization(e.target.value)}
                 placeholder="Ex: Adaugă numărul de înmatriculare sau un nume în colț"
-                className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#E30613] placeholder-white/20 transition-colors"
+                className="w-full bg-[#111] border border-white/10 p-3 text-xs text-white focus:outline-none focus:border-[#10B981] placeholder-white/20 transition-colors"
               />
             </div>
 
@@ -241,7 +241,7 @@ export default function ProductDetailPage({
                 <button
                   type="button"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-3.5 py-2 text-white hover:text-[#E30613] text-sm font-mono transition-colors"
+                  className="px-3.5 py-2 text-white hover:text-[#10B981] text-sm font-mono transition-colors"
                 >
                   -
                 </button>
@@ -249,7 +249,7 @@ export default function ProductDetailPage({
                 <button
                   type="button"
                   onClick={() => setQuantity(quantity + 1)}
-                  className="px-3.5 py-2 text-white hover:text-[#E30613] text-sm font-mono transition-colors"
+                  className="px-3.5 py-2 text-white hover:text-[#10B981] text-sm font-mono transition-colors"
                 >
                   +
                 </button>
@@ -257,7 +257,7 @@ export default function ProductDetailPage({
             </div>
 
             {/* Final checkout pricing block */}
-            <div className="bg-[#0A0A0A] border border-white/10 p-5 space-y-4 shadow-[0_10px_30px_rgba(227,6,19,0.05)]">
+            <div className="bg-[#0A0A0A] border border-white/10 p-5 space-y-4 shadow-[0_10px_30px_rgba(16,185,129,0.05)]">
               <div className="flex items-center justify-between text-xs text-white/40 font-mono uppercase">
                 <span>Calcul Total estimat:</span>
                 <span>{quantity} x {unitPrice} EUR</span>
@@ -265,7 +265,7 @@ export default function ProductDetailPage({
               <div className="flex items-baseline justify-between">
                 <span className="text-xs uppercase tracking-widest text-white/80 font-bold">Total Final:</span>
                 <span className="text-3xl font-light text-white tracking-tight">
-                  {totalPrice} <span className="text-sm font-bold text-[#E30613] font-mono">EUR</span>
+                  {totalPrice} <span className="text-sm font-bold text-[#10B981] font-mono">EUR</span>
                 </span>
               </div>
 
@@ -278,7 +278,7 @@ export default function ProductDetailPage({
               {/* Action Button */}
               <button
                 onClick={handleOrderSubmit}
-                className="w-full bg-[#E30613] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#C20510] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3"
+                className="w-full bg-[#10B981] text-white font-bold text-xs uppercase tracking-[0.25em] py-4 hover:bg-[#059669] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3"
                 id="detail-order-now-btn"
               >
                 <ShoppingBag size={14} />
@@ -295,7 +295,7 @@ export default function ProductDetailPage({
       {relatedProducts.length > 0 && (
         <section className="mt-20 pt-16 border-t border-white/5" id="related-products-section">
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-8 h-px bg-[#E30613]"></div>
+            <div className="w-8 h-px bg-[#10B981]"></div>
             <h2 className="font-display text-xl tracking-wider text-white uppercase font-light">
               Alți entuziaști au <span className="font-semibold">apreciat și:</span>
             </h2>
@@ -320,7 +320,7 @@ export default function ProductDetailPage({
                 </div>
                 <div>
                   <span className="text-[8px] uppercase tracking-widest text-white/40 font-mono">{related.category}</span>
-                  <h4 className="text-white text-xs font-light tracking-wide line-clamp-1 group-hover:text-red-500 transition-colors mt-0.5">
+                  <h4 className="text-white text-xs font-light tracking-wide line-clamp-1 group-hover:text-emerald-500 transition-colors mt-0.5">
                     {related.title}
                   </h4>
                   <p className="text-white font-mono text-xs mt-2 font-medium">
