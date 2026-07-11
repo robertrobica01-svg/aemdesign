@@ -12,7 +12,7 @@ export default function Hero({ onExploreClick }: HeroProps) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_120%,rgba(227,6,19,0.08),transparent_50%)]" />
       <div className="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none hidden md:block">
         <img
-          src="/src/assets/images/hero_porsche_sketch_1783457469507.jpg"
+          src="/images/hero_porsche_sketch_1783457469507.jpg"
           alt="AEM Design Porsche Artwork"
           className="w-full h-full object-cover object-right grayscale contrast-125"
         />

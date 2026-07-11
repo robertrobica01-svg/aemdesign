@@ -113,10 +113,10 @@ export default function AdminDashboard({ products, refreshProducts, token }: Adm
 
   // Some default pre-rendered image suggestions for the admin
   const SUGGESTED_IMAGES = [
-    { label: 'Tablou Porsche (Sketch)', url: '/src/assets/images/hero_porsche_sketch_1783457469507.jpg' },
-    { label: 'Tablou Porsche (Framed)', url: '/src/assets/images/car_canvas_print_1783457503595.jpg' },
-    { label: 'Agendă Piele (Black)', url: '/src/assets/images/agenda_premium_1783457480402.jpg' },
-    { label: 'Set Stickere (Vinyl)', url: '/src/assets/images/stickers_collection_1783457490627.jpg' },
+    { label: 'Tablou Porsche (Sketch)', url: '/images/hero_porsche_sketch_1783457469507.jpg' },
+    { label: 'Tablou Porsche (Framed)', url: '/images/car_canvas_print_1783457503595.jpg' },
+    { label: 'Agendă Piele (Black)', url: '/images/agenda_premium_1783457480402.jpg' },
+    { label: 'Set Stickere (Vinyl)', url: '/images/stickers_collection_1783457490627.jpg' },
   ];
 
   const fetchContacts = async () => {

@@ -5,6 +5,7 @@ import { createServer as createViteServer } from 'vite';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, query, orderBy, setDoc } from 'firebase/firestore';
+import firebaseConfig from './firebase-applet-config.json';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -35,38 +36,23 @@ const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
 
 // Initialize Firebase App & Firestore
-let firebaseConfigPath = '';
-const possiblePaths = [
-  path.join(process.cwd(), 'firebase-applet-config.json'),
-  path.join(__dirname, 'firebase-applet-config.json'),
-  path.join(__dirname, '..', 'firebase-applet-config.json')
-];
-
-for (const p of possiblePaths) {
-  if (fs.existsSync(p)) {
-    firebaseConfigPath = p;
-    break;
-  }
-}
-
 let firebaseApp: any = null;
 let db: any = null;
 
-if (firebaseConfigPath) {
-  try {
-    const config = JSON.parse(fs.readFileSync(firebaseConfigPath, 'utf-8'));
-    firebaseApp = initializeApp(config);
-    if (config.firestoreDatabaseId) {
-      db = getFirestore(firebaseApp, config.firestoreDatabaseId);
+try {
+  if (firebaseConfig && firebaseConfig.projectId) {
+    firebaseApp = initializeApp(firebaseConfig);
+    if (firebaseConfig.firestoreDatabaseId) {
+      db = getFirestore(firebaseApp, firebaseConfig.firestoreDatabaseId);
     } else {
       db = getFirestore(firebaseApp);
     }
-    console.log('Firebase successfully initialized in server.ts with database ID:', config.firestoreDatabaseId || '(default)');
-  } catch (err) {
-    console.error('Error initializing Firebase with firebase-applet-config.json:', err);
+    console.log('Firebase successfully initialized in server.ts with database ID:', firebaseConfig.firestoreDatabaseId || '(default)');
+  } else {
+    console.warn('Statically imported firebase-applet-config.json is empty or invalid. Falling back to local storage.');
   }
-} else {
-  console.warn('firebase-applet-config.json not found. Falling back to local data storage.');
+} catch (err) {
+  console.error('Error initializing Firebase with imported config:', err);
 }
 
 // Default initial products using generated asset paths
@@ -485,6 +471,12 @@ apiRouter.post('/upload', requireAdmin, (req, res) => {
     return res.status(400).json({ error: 'Nicio imagine primisă.' });
   }
 
+  // If running on Vercel serverless functions, bypass read-only filesystem by returning base64 directly
+  if (process.env.VERCEL === '1') {
+    console.log('Vercel serverless environment detected. Returning base64 image data directly.');
+    return res.json({ imageUrl: image });
+  }
+
   try {
     // Check if the data is a valid Base64 image
     const matches = image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
@@ -503,8 +495,8 @@ apiRouter.post('/upload', requireAdmin, (req, res) => {
     const imageUrl = `/uploads/${cleanFilename}`;
     res.json({ imageUrl });
   } catch (err) {
-    console.error('Error saving uploaded image:', err);
-    res.status(500).json({ error: 'Eroare la salvarea fișierului pe server.' });
+    console.warn('Error saving uploaded image to filesystem, falling back to returning base64:', err);
+    res.json({ imageUrl: image });
   }
 });
 
